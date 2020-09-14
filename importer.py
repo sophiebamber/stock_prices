@@ -18,6 +18,7 @@ def get_stock_price(url: str, html_object: str) -> Optional[str]:
     """
 
     try:
+        print('Howdy')
 
         r = requests.get(url)
         soup = bs4.BeautifulSoup(r.text, 'lxml')
