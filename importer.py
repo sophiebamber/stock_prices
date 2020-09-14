@@ -1,6 +1,11 @@
+from datetime import date
+
 import bs4
 import requests
 from typing import Optional
+from pandas_datareader import data as pdr
+from matplotlib import pyplot as plt
+import pandas as pd
 
 
 def get_stock_price(url: str, html_object: str) -> Optional[str]:
@@ -20,8 +25,17 @@ def get_stock_price(url: str, html_object: str) -> Optional[str]:
 
         return stock_price
     except Exception as e:
-        return None
+        return e
 
 
 price = get_stock_price('https://uk.finance.yahoo.com/quote/%5EVWRL/', 'My(6px) Pos(r) smartphone_Mt(6px)')
 print(price)
+
+start_date = '2011-01-01'
+today = date.today()
+data = pdr.get_data_yahoo('VOO', start=start_date, end=today).reset_index()
+print(data)
+data['Date'] = pd.to_datetime(data['Date'])
+
+data.plot(x='Date', y=['High', 'Low'])
+plt.show()
